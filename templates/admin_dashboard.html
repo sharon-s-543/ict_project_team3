@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="dashboard-header">
+    <h2>Amanikipaasi Admin Dashboard</h2>
+    <a href="{{ url_for('admin_logout') }}" class="logout-btn">Logout</a>
+</div>
+
+<div class="tab-menu">
+    <button id="btn-ManageLessons" class="tab-btn" onclick="openTab(event, 'ManageLessons')">Lessons</button>
+    <button id="btn-ManageDict" class="tab-btn" onclick="openTab(event, 'ManageDict')">Dictionary</button>
+    <button id="btn-ManagePhrases" class="tab-btn" onclick="openTab(event, 'ManagePhrases')">Phrases</button>
+    <button id="btn-ManageQuiz" class="tab-btn" onclick="openTab(event, 'ManageQuiz')">Quiz Bank</button>
+</div>
+
+<hr>
+
+<div id="ManageLessons" class="tab-content" style="display:none;">
+    <h3>Add New Lesson</h3>
+    <form method="POST" action="{{ url_for('add_lesson') }}">
+        <input type="text" name="title" placeholder="Lesson Title" required><br>
+        <input type="number" name="sort_order" placeholder="Sort Order (e.g., 1)" required><br>
+        <textarea name="content" rows="6" placeholder="Lesson text..." required></textarea><br>
+        <button type="submit">Save New Lesson</button>
+    </form>
+
+    <hr>
+    <h3>Existing Lessons</h3>
+    <ul style="list-style: none; padding: 0;">
+        {% for lesson in lessons %}
+        <li style="background: #f9f9f9; padding: 10px; margin-bottom: 8px; border: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
+            <span><strong>[{{ lesson.sort_order }}]</strong> {{ lesson.title }}</span>
+            <div style="display: flex; gap: 5px;">
+                <a href="{{ url_for('edit_lesson', id=lesson.id) }}" style="background: #3498db; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9rem;">Edit</a>
+                <form method="POST" action="{{ url_for('delete_lesson', id=lesson.id) }}" style="margin: 0;" onsubmit="return confirm('Delete this lesson?');">
+                    <button type="submit" style="background: #e74c3c; color: white; padding: 5px 10px; border: none; border-radius: 3px; font-size: 0.9rem; cursor: pointer;">Delete</button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div id="ManageDict" class="tab-content" style="display:none;">
+    <h3>Add Word to Dictionary</h3>
+    <form method="POST" action="{{ url_for('add_word') }}">
+        <input type="text" name="amanikipaasi" placeholder="Amanikipaasi Word" required><br>
+        <input type="text" name="english" placeholder="English Translation" required><br>
+        <input type="text" name="pos" placeholder="Part of Speech (e.g., noun, verb)" required><br>
+        <button type="submit">Add Word</button>
+    </form>
+
+        <hr>
+    <h3>Existing Words</h3>
+    <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #fff;">
+        {% for word in words %}
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding: 8px 0;">
+            <span><strong>{{ word.amanikipaasi }}</strong> - {{ word.english }} (<em>{{ word.pos }}</em>)</span>
+            <div style="display: flex; gap: 5px;">
+                <a href="{{ url_for('edit_word', id=word.id) }}" style="background: #3498db; color: white; padding: 3px 8px; text-decoration: none; border-radius: 3px; font-size: 0.8rem;">Edit</a>
+                <form method="POST" action="{{ url_for('delete_word', id=word.id) }}" style="margin:0;" onsubmit="return confirm('Delete word?');">
+                    <button type="submit" style="background: #e74c3c; color: white; padding: 3px 8px; border: none; border-radius: 3px; font-size: 0.8rem; cursor: pointer;">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<div id="ManagePhrases" class="tab-content" style="display:none;">
+    <h3>Update Phrases Page Content</h3>
+    <form method="POST" action="{{ url_for('update_phrases') }}">
+        <textarea name="content" rows="12" placeholder="Write your phrases here..." required>{% if phrases %}{{ phrases.content }}{% endif %}</textarea><br>
+        <button type="submit">Update Phrases</button>
+    </form>
+</div>
+
+<div id="ManageQuiz" class="tab-content" style="display:none;">
+    <h3>Add Question to Quiz Bank</h3>
+    <form method="POST" action="{{ url_for('add_question') }}">
+        <input type="text" name="question" placeholder="Question Text" required><br>
+        <input type="text" name="option_a" placeholder="Option A" required><br>
+        <input type="text" name="option_b" placeholder="Option B" required><br>
+        <input type="text" name="option_c" placeholder="Option C" required><br>
+        <input type="text" name="option_d" placeholder="Option D" required><br>
+        <label for="correct_answer">Correct Option:</label>
+        <select name="correct_answer">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select><br><br>
+        <button type="submit">Add Question</button>
+    </form>
+
+        <hr>
+    <h3>Existing Questions</h3>
+    {% for q in questions %}
+    <div style="background: #fdfdfd; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 4px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <p style="margin: 0 0 5px 0;"><strong>Q: {{ q.question }}</strong></p>
+            <div style="display: flex; gap: 5px;">
+                <a href="{{ url_for('edit_question', id=q.id) }}" style="background: #3498db; color: white; padding: 3px 8px; text-decoration: none; border-radius: 3px; font-size: 0.8rem;">Edit</a>
+                <form method="POST" action="{{ url_for('delete_question', id=q.id) }}" style="margin:0;" onsubmit="return confirm('Delete question?');">
+                    <button type="submit" style="background: #e74c3c; color: white; padding: 3px 8px; border: none; border-radius: 3px; font-size: 0.8rem; cursor: pointer;">Delete</button>
+                </form>
+            </div>
+        </div>
+        <small style="color: #666; display: block; margin-bottom: 4px;">Options: A) {{ q.option_a }} | B) {{ q.option_b }} | C) {{ q.option_c }} | D) {{ q.option_d }}</small>
+        <span style="color: #27ae60; font-weight: bold; font-size: 0.85rem;">Correct: {{ q.correct_answer }}</span>
+    </div>
+    {% endfor %}
+
+</div>
+
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    if (evt) {
+        evt.currentTarget.className += " active";
+    } else {
+        document.getElementById("btn-" + tabName).className += " active";
+    }
+}
+
+//  Run automatically on page load to preserve position
+window.onload = function() {
+    var serverActiveTab = "{{ active_tab }}";
+    openTab(null, serverActiveTab);
+};
+</script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="admin-login-box">
+    <h2>Admin Access</h2>
+    
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p class="error-msg">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('admin') }}">
+        <label for="password">Enter Admin Password:</label>
+        <input type="password" id="password" name="password" required placeholder="Password...">
+        <button type="submit">Login</button>
+    </form>
+</div>
+{% endblock %}
+

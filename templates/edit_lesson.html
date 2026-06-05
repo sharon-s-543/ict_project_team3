@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 600px; margin: auto;">
+    <h2>Edit Lesson: {{ lesson.title }}</h2>
+    
+    <form method="POST">
+        <label>Lesson Title:</label>
+        <input type="text" name="title" value="{{ lesson.title }}" style="width:100%; padding:10px; margin-bottom:15px;" required><br>
+        
+        <label>Sort Order Position:</label>
+        <input type="number" name="sort_order" value="{{ lesson.sort_order }}" style="width:100%; padding:10px; margin-bottom:15px;" required><br>
+        
+        <label>Lesson Text / Content:</label>
+        <textarea name="content" rows="12" style="width:100%; padding:10px; margin-bottom:15px; font-family:inherit;" required>{{ lesson.content }}</textarea><br>
+        
+        <button type="submit" style="background: #2ecc71; color: white; border: none; padding: 12px 20px; border-radius: 4px; font-weight: bold; cursor: pointer;">Update Lesson</button>
+        <a href="{{ url_for('admin_dashboard') }}" style="margin-left: 15px; color: #7f8c8d;">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+

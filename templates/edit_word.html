@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 500px; margin: auto; background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+    <h2>Edit Word Details</h2>
+    <form method="POST">
+        <label>Amanikipaasi Word:</label>
+        <input type="text" name="amanikipaasi" value="{{ word.amanikipaasi }}" style="width:100%; padding:10px; margin: 5px 0 15px 0;" required><br>
+        
+        <label>English Translation:</label>
+        <input type="text" name="english" value="{{ word.english }}" style="width:100%; padding:10px; margin: 5px 0 15px 0;" required><br>
+        
+        <label>Part of Speech:</label>
+        <input type="text" name="pos" value="{{ word.pos }}" style="width:100%; padding:10px; margin: 5px 0 15px 0;" required><br>
+        
+        <button type="submit" style="background: #2ecc71; color: white; border: none; padding: 12px 20px; border-radius: 4px; font-weight: bold; cursor: pointer;">Update Word</button>
+        <a href="{{ url_for('admin_dashboard', tab='ManageDict') }}" style="margin-left: 15px; color: #7f8c8d; text-decoration: none;">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+
