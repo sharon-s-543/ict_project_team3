@@ -1,0 +1,332 @@
+body { font-family: Georgia, Cambria, "Times New Roman", Times, serif; margin: 0; background: #000000; color: #ffffff; }
+.navbar { background: #4a3015; padding: 15px; overflow: hidden; }
+.navbar a { color: #f5f5dc; text-decoration: none; padding: 10px 15px; display: inline-block; }
+.navbar a:hover { background: #d2b48c; border-radius: 4px; }
+.container { padding: 20px; max-width: 900px; margin: auto; }
+
+.site-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #b36b39; /*lighter brown*/
+    text-align: left;
+    color: f5f5dc;
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
+    z-index: 1000;
+    box-sizing: border-box;
+
+    /* === to shrink the footer === */
+    padding: 8px 10px 4px 10px; 
+}
+
+/* === to make the header compact === */
+.site-footer h4 {
+    margin: 2px 0 4px 0;
+    font-size: 0.95rem; /* Shrunk down from 1.4rem */
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* MAKE THE DESCRIPTION PARAGRAPH TINY */
+.site-footer p {
+    color: rgba(255, 255, 255, 0.8); 
+    font-size: 0.75rem; /* Tiny, clean description text */
+    margin: 0 0 8px 0; /* Tightened margin space */
+    line-height: 1.2;
+}
+
+/* SPACE OUT THE LINKS HORIZONTALLY ON MOBILE */
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Brings them closer together */
+    flex-wrap: wrap; 
+    margin-bottom: 4px;
+}
+
+/*  SHRUNK LINK TEXT & BETTER COLOR FOR LEGIBILITY */
+.footer-link {
+    color: #ffffff !important; /* White looks cleaner than dark blue on this wood background */
+    text-decoration: underline;
+    font-weight: normal;
+    font-size: 0.8rem; /* Keeps links tiny and readable */
+}
+
+.site-footer .copyright {
+    color: rgba(255, 255, 255, 0.4); 
+    font-size: 0.65rem;
+    margin: 4px 0 2px 0;
+}
+
+/* Lesson Sidebar Grid Layout */
+.lessons-container { display: flex; flex-direction: row; gap: 20px; }
+.sidebar { width: 250px; background: #f5f5dc; padding: 15px; border-radius: 5px; color: #000;}
+.sidebar h3 { color: #000; }
+.lesson-main { flex: 1; }
+.lesson-content { background: #f5deb3; padding: 15px; border: 1px solid #000; white-space: pre-wrap; color:#000;
+/* to fix the font and text styling */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.6;}
+
+
+/* Dictionary Table */
+.dict-table { width: 100%; border-collapse: collapse; margin-top: 15px; color:#000; background:#f5f5dc;}
+.dict-table th, .dict-table td { border: 1px solid #000; padding: 10px; text-align: left; }
+.dict-table th { background-color: #d2b48c; color: #000; }
+
+/* === Phrases === */
+.phrases-header {
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ffffff;
+    padding-bottom: 10px;
+}
+
+.phrases-header h2 {
+    color: #ffffff;
+    margin: 0 0 5px 0;
+}
+
+.phrases-header p {
+    color: #ffffff;
+    font-style: italic;
+    margin: 0;
+}
+
+.phrases-container {
+    margin-top: 20px;
+}
+
+.phrases-box {
+    background: #f5deb3;
+    padding: 20px;
+    border-left: 4px solid #3498db;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    color:#000;
+   
+    /* CRITICAL: This preserves your line breaks (\n) from the admin text area */
+    white-space: pre-wrap;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.no-data {
+    background: #fdf2e9;
+    border: 1px dashed #e67e22;
+    padding: 15px;
+    border-radius: 4px;
+    color: #d35400;
+    text-align: center;
+}
+
+/* Quick utility fix for the main layout spacing */
+.container {
+    padding: 15px;
+    max-width: 900px;
+    margin: auto;
+    box-sizing: border-box;
+}
+
+/* --- Quiz Results UI Styles --- */
+.score-banner {
+    background: #d2b48c;
+    color: #000;
+    padding: 20px;
+    text-align: center;
+    border-radius: 6px;
+    margin-bottom: 25px;
+}
+.score-banner h2 { margin: 5px 0 0 0; color: #3a2a17; font-size: 2rem; }
+
+.review-card {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border-left: 5px solid;
+}
+.review-card p { margin: 6px 0; }
+
+/* Green styling for correct cards */
+.correct-card {
+    color: #000000;
+    background-color: #f5f5dc;
+    border-color: #2ecc71;
+}
+.correct-card .badge {
+    color: #27ae60;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* Red styling for wrong cards */
+.wrong-card {
+   color: #000000;
+   background-color: #f5f5dc;
+   border-color: #e74c3c;
+}
+.wrong-card .badge {
+    color: #c0392b;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* Action button stylings */
+.submit-quiz-btn {
+    background: #2ecc71; color: #f5f5dc; border: none; padding: 12px 25px;
+    border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold;
+}
+.retry-quiz-btn {
+    background: #3498db; color: #f5f5dc; border: none; padding: 14px 30px;
+    border-radius: 4px; cursor: pointer; font-size: 1.1rem; font-weight: bold;
+}
+
+
+/* --- Admin System Styles --- */
+.admin-login-box {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #d2b48c;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #000;
+}
+.admin-login-box input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    background: #f5f5dc;
+}
+.error-msg { color: #c0392b; font-weight: bold; }
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.logout-btn {
+    background: #400707;
+    color: #f5f5dc;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+}
+
+/* --- Admin Input Forms Background & Typography --- */
+.tab-content form input,
+.tab-content form textarea,
+.tab-content form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #4a3015; 
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+    
+    /* 🌟 Force clean dark text inside beige inputs */
+    background-color: #f5f5dc !important;
+    color: #111111 !important;
+}
+
+/* --- Existing Lessons, Words, and Quiz Item Containers --- */
+/* This targets the dynamic lists generated at the bottom of your dashboard tabs */
+.tab-content ul li, 
+.tab-content div[style*="background"], 
+.tab-content .item-row,
+.tab-content div + div {
+    background-color: #f5f5dc !important;
+    color: #111111 !important; /* Changes the light-gray titles to readable dark charcoal */
+    border-radius: 4px;
+}
+
+/* Explicitly targets any raw label strings or index numbers inside those list blocks */
+.tab-content li, 
+.tab-content p,
+.tab-content span {
+    color: #111111;
+}
+
+
+/* Tab Layout Styles */
+.tab-menu { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; }
+.tab-btn {
+    background: #ecf0f1;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px 4px 0 0;
+    font-size: 1rem;
+}
+.tab-btn.active { background: #3498db; color: white; font-weight: bold; }
+
+/* Admin Dashboard Forms Layout */
+.tab-content form input,
+.tab-content form textarea,
+.tab-content form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+    color: #000;
+}
+.tab-content form button, .admin-login-box button {
+    background: #2ecc71;
+    color: #000000;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tab-content form button:hover { background: #27ae60; }
+
+
+/* --- Hamburger Button Default State (Hidden on Computers) --- */
+.hamburger {
+    display: none; 
+    width: 100%;
+    padding: 12px;
+    background-color: #400707; /*marroom colour*/
+    color: #f5f5dc; /* Cream text */
+    border: none;
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+/* --- Responsive Adjustments for Mobile Phones --- */
+@media(max-width: 768px) {
+    .lessons-container { 
+        flex-direction: column; 
+    }
+    
+    /* 1. Show the toggle button on mobile viewports */
+    .hamburger { 
+        display: block; 
+    }
+    
+    /* 2. Hide the sidebar by default on mobile devices */
+    .sidebar { 
+        display: none; 
+        width: 100%; 
+        box-sizing: border-box;
+    }
+    
+    /* 3. When JavaScript adds the class 'active', snap the menu into view! */
+    .sidebar.active { 
+        display: block; 
+    }
+}
