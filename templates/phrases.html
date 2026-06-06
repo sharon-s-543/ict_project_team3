@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="phrases-header">
+        <h2>Amanikipaasi Useful Phrases</h2>
+        <p>Master everyday conversations, common expressions, and idioms in Amanikipaasi.</p>
+    </div>
+
+    <div class="phrases-container">
+        {% if phrase_data and phrase_data.content %}
+            <div class="phrases-box">
+                {{ phrase_data.content }}
+            </div>
+        {% else %}
+            <div class="no-data">
+                <p>No phrases have been added yet. Log in to the Admin panel to add some!</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+

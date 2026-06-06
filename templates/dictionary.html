@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Amanikipaasi to English Dictionary</h2>
+    
+    <form method="GET" action="{{ url_for('dictionary') }}">
+        <input type="text" name="search" placeholder="Search English or Amanikipaasi..." value="{{ search }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <table class="dict-table">
+        <thead>
+            <tr>
+                <th>Amanikipaasi</th>
+                <th>English</th>
+                <th>POS</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if words %}
+                {% for word in words %}
+                <tr>
+                    <td><strong>{{ word.amanikipaasi }}</strong></td>
+                    <td>{{ word.english }}</td>
+                    <td><em>{{ word.pos }}</em></td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td colspan="3">No words found.</td></tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}
+
