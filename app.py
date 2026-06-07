@@ -60,7 +60,7 @@ def lessons():
     all_lessons = db.execute('SELECT * FROM lessons ORDER BY sort_order ASC').fetchall()
     
     # Get specific active lesson
-    lesson_id = request.args.get('id')
+    lesson_id = request.args.get('lesson_id')
     active_lesson = None
     if lesson_id:
         active_lesson = db.execute('SELECT * FROM lessons WHERE id = ?', (lesson_id,)).fetchone()
@@ -143,14 +143,14 @@ def add_lesson():
     with get_db() as conn:
         conn.execute('INSERT INTO lessons (title, content, sort_order) VALUES (?, ?, ?)',
                      (request.form['title'], request.form['content'], request.form['sort_order']))
-    return redirect(url_for('admin_dashboard'))
+    return redirect(url_for('admin_dashboard', tab='ManageLessons'))
 
 @app.route('/admin/delete_lesson/<int:id>', methods=['POST'])
 def delete_lesson(id):
     if not session.get('logged_in'): return redirect(url_for('admin'))
     with get_db() as conn:
         conn.execute('DELETE FROM lessons WHERE id = ?', (id,))
-    return redirect(url_for('admin_dashboard'))
+    return redirect(url_for('admin_dashboard', tab='ManageLessons'))
 
 @app.route('/admin/edit_lesson/<int:id>', methods=['GET', 'POST'])
 def edit_lesson(id):
@@ -161,7 +161,7 @@ def edit_lesson(id):
         with get_db() as conn:
             conn.execute('UPDATE lessons SET title = ?, content = ?, sort_order = ? WHERE id = ?',
                          (request.form['title'], request.form['content'], request.form['sort_order'], id))
-        return redirect(url_for('admin_dashboard'))
+        return redirect(url_for('admin_dashboard', tab='ManageLessons'))
         
     lesson = db.execute('SELECT * FROM lessons WHERE id = ?', (id,)).fetchone()
     return render_template('edit_lesson.html', lesson=lesson)

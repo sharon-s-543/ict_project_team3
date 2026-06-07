@@ -113,5 +113,9 @@
 
 </div>
 
+<script>
+    // Create a global JS variable right inside the template where Jinja can reach it
+    window.serverActiveTab = "{{ active_tab }}";
+</script>
 <script src="{{url_for('static',filename='script/admin_dashboard.js')}}"></script>
 {% endblock %}
