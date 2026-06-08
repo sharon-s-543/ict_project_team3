@@ -4,8 +4,8 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import sqlite3
 
 app = Flask(__name__)
-app.secret_key = 'super_secret_flash_key'  # Change this for security
-ADMIN_PASSWORD = "your_secure_password"   # Set your admin password here
+app.secret_key = 'super_secret_flash_key'
+ADMIN_PASSWORD = "Hydrophis_belcheri"   # admin password 
 
 DATABASE = 'database.db'
 
@@ -93,11 +93,11 @@ def phrases():
 @app.route('/quiz')
 def quiz():
     db = get_db()
-    # Fetch all questions, shuffle them, and pick 15
+    # Fetch all questions, shuffle them, and pick 10
     questions = db.execute('SELECT * FROM quiz').fetchall()
     questions = list(questions)
     random.shuffle(questions)
-    selected_questions = questions[:15]
+    selected_questions = questions[:10]
     return render_template('quiz.html', questions=selected_questions)
 
 # --- ADMIN SYSTEM ---
@@ -137,6 +137,8 @@ def admin_dashboard():
 
 # --- ADMIN CRUD OPERATIONS ---
 
+#==========lessons=========
+
 @app.route('/admin/add_lesson', methods=['POST'])
 def add_lesson():
     if not session.get('logged_in'): return redirect(url_for('admin'))
@@ -166,6 +168,8 @@ def edit_lesson(id):
     lesson = db.execute('SELECT * FROM lessons WHERE id = ?', (id,)).fetchone()
     return render_template('edit_lesson.html', lesson=lesson)
 
+#==========words==============
+
 @app.route('/admin/add_word', methods=['POST'])
 def add_word():
     if not session.get('logged_in'): return redirect(url_for('admin'))
@@ -175,23 +179,6 @@ def add_word():
     # Tells the template to stick to the Dictionary tab
     return redirect(url_for('admin_dashboard', tab='ManageDict'))
 
-@app.route('/admin/update_phrases', methods=['POST'])
-def update_phrases():
-    if not session.get('logged_in'): return redirect(url_for('admin'))
-    with get_db() as conn:
-        conn.execute('INSERT INTO phrases (content) VALUES (?)', (request.form['content'],))
-    return redirect(url_for('admin_dashboard', tab='ManagePhrases'))
-
-@app.route('/admin/add_question', methods=['POST'])
-def add_question():
-    if not session.get('logged_in'): return redirect(url_for('admin'))
-    with get_db() as conn:
-        conn.execute('INSERT INTO quiz (question, option_a, option_b, option_c, option_d, correct_answer) VALUES (?, ?, ?, ?, ?, ?)',
-                     (request.form['question'], request.form['option_a'], request.form['option_b'], request.form['option_c'], request.form['option_d'], request.form['correct_answer']))
-    return redirect(url_for('admin_dashboard', tab='ManageQuiz'))
-
-# --- NEW DELETE ROUTES ---
-
 @app.route('/admin/delete_word/<int:id>', methods=['POST'])
 def delete_word(id):
     if not session.get('logged_in'): return redirect(url_for('admin'))
@@ -199,14 +186,6 @@ def delete_word(id):
         conn.execute('DELETE FROM dictionary WHERE id = ?', (id,))
     return redirect(url_for('admin_dashboard', tab='ManageDict'))
 
-@app.route('/admin/delete_question/<int:id>', methods=['POST'])
-def delete_question(id):
-    if not session.get('logged_in'): return redirect(url_for('admin'))
-    with get_db() as conn:
-        conn.execute('DELETE FROM quiz WHERE id = ?', (id,))
-    return redirect(url_for('admin_dashboard', tab='ManageQuiz'))
-
-# --- EDIT DICTIONARY WORD ROUTE ---
 @app.route('/admin/edit_word/<int:id>', methods=['GET', 'POST'])
 def edit_word(id):
     if not session.get('logged_in'): return redirect(url_for('admin'))
@@ -221,7 +200,32 @@ def edit_word(id):
     word = db.execute('SELECT * FROM dictionary WHERE id = ?', (id,)).fetchone()
     return render_template('edit_word.html', word=word)
 
-# --- EDIT QUIZ QUESTION ROUTE ---
+#===========phrases===========
+
+@app.route('/admin/update_phrases', methods=['POST'])
+def update_phrases():
+    if not session.get('logged_in'): return redirect(url_for('admin'))
+    with get_db() as conn:
+        conn.execute('INSERT INTO phrases (content) VALUES (?)', (request.form['content'],))
+    return redirect(url_for('admin_dashboard', tab='ManagePhrases'))
+
+#==========questions===========
+
+@app.route('/admin/add_question', methods=['POST'])
+def add_question():
+    if not session.get('logged_in'): return redirect(url_for('admin'))
+    with get_db() as conn:
+        conn.execute('INSERT INTO quiz (question, option_a, option_b, option_c, option_d, correct_answer) VALUES (?, ?, ?, ?, ?, ?)',
+                     (request.form['question'], request.form['option_a'], request.form['option_b'], request.form['option_c'], request.form['option_d'], request.form['correct_answer']))
+    return redirect(url_for('admin_dashboard', tab='ManageQuiz'))
+
+@app.route('/admin/delete_question/<int:id>', methods=['POST'])
+def delete_question(id):
+    if not session.get('logged_in'): return redirect(url_for('admin'))
+    with get_db() as conn:
+        conn.execute('DELETE FROM quiz WHERE id = ?', (id,))
+    return redirect(url_for('admin_dashboard', tab='ManageQuiz'))
+
 @app.route('/admin/edit_question/<int:id>', methods=['GET', 'POST'])
 def edit_question(id):
     if not session.get('logged_in'): return redirect(url_for('admin'))
@@ -240,11 +244,8 @@ def edit_question(id):
     question = db.execute('SELECT * FROM quiz WHERE id = ?', (id,)).fetchone()
     return render_template('edit_question.html', q=question)
 
-
-
-# Note: You can add delete/edit endpoints similarly using: "DELETE FROM table WHERE id = ?"
+#================================
 
 if __name__ == '__main__':
     init_db()
     app.run(debug=True, host='0.0.0.0', port=5000)
-
