@@ -1,0 +1,35 @@
+import os
+import sqlite3
+
+# We will check both names since OneDrive/Windows is being tricky
+if os.path.exists('backup_data.sql'):
+    backup_file = 'backup_data.sql'
+elif os.path.exists('backup_data'):
+    backup_file = 'backup_data'
+else:
+    print("Error: Could not find 'backup_data' or 'backup_data.sql' in this folder!")
+    print("Files currently in this folder:", os.listdir('.'))
+    exit()
+
+db_file = 'database.db' if os.path.exists('database.db') else 'database'
+
+# Delete old file to overwrite cleanly
+if os.path.exists(db_file):
+    try:
+        os.remove(db_file)
+        print(f"Removed existing '{db_file}' file.")
+    except Exception:
+        pass
+
+print(f"Reading from {backup_file}...")
+with open(backup_file, 'r', encoding='utf-8') as f:
+    sql_script = f.read()
+
+print(f"Building {db_file}...")
+conn = sqlite3.connect(db_file)
+cursor = conn.cursor()
+cursor.executescript(sql_script)
+conn.commit()
+conn.close()
+
+print("Success! Your database file has been successfully reconstructed.")
